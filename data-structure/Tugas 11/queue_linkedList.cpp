@@ -30,8 +30,6 @@ struct Queue {
     List Tail;
 };
 
-Queue Q;
-
 void   createQueue  (Queue& Q);
 void   createElement(Pointer& pBaru);
 void   enqueue      (Queue& Q, Pointer pBaru);
@@ -80,6 +78,8 @@ int main() {
     Pointer pBaru  = NULL;
     Pointer pHapus = NULL;
     int     pOps, n;
+    Queue Q;
+
 
     createQueue(Q);
 

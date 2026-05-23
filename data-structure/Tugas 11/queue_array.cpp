@@ -26,8 +26,6 @@ struct Queue {
     int     Tail;
 };
 
-Queue Q;
-
 void   createQueue (Queue& Q);
 void   enqueue     (Queue& Q);
 void   dequeue     (Queue& Q);
@@ -74,6 +72,7 @@ string formatRupiah(long long angka) {
 
 int main() {
     int pOps, n;
+    Queue Q;
 
     createQueue(Q);
 
