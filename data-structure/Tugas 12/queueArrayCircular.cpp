@@ -1,7 +1,7 @@
 /*  Nama program    :   Array Circular Queue Pegawai
     Nama            :   Muhammad Athar Alfarisi (Khaled Meshaal Ahmadinejad Mujaddid Thariq Mardova Fadhilah 250056, M<uhammad Faiz Hariy Nugroho 250029)
     NPM             :   140810250005
-    Tanggal buat    :   17 Mei 2026
+    Tanggal buat    :   23 Mei 2026
     Deskripsi       :   Input cetak, enqueue (insert last),
                         dequeue (delete first), tampilkan semua data
                         menggunakan array circular
@@ -28,10 +28,10 @@ struct Queue {
 
 Queue Q;
 
-void   createQueue (Queue& Q);
-void   enqueue     (Queue& Q);
-void   dequeue     (Queue& Q);
-void   traversal   (Queue  Q);
+void createQueue(Queue& Q);
+void enqueue(Queue& Q);
+Pegawai dequeue(Queue& Q);
+void traversal(Queue  Q);
 string formatRupiah(long long angka);
 
 long long getGaji(int gol) {
@@ -141,11 +141,8 @@ void enqueue(Queue& Q) {
         posisiTemp = Q.Tail; // amankan posisi Q.Tail
 
         // Proses circular
-        if (Q.Tail < maxElemen - 1)
-            Q.Tail = Q.Tail + 1;
-        else
-            Q.Tail = 0;
-
+        if (Q.Tail < maxElemen - 1) ++Q.Tail;
+        else Q.Tail = 0;
         // Cek apakah antrian penuh
         if (Q.Tail == Q.Head) {
             cout << "Antrian sudah penuh.\n";
@@ -158,7 +155,7 @@ void enqueue(Queue& Q) {
     }
 }
 
-void dequeue(Queue& Q) {
+Pegawai dequeue(Queue& Q) {
     // deleteQueue circular
     Pegawai elemenHapus;
 
@@ -168,21 +165,18 @@ void dequeue(Queue& Q) {
     } else if (Q.Head == Q.Tail) {
         // Kasus 1 elemen
         elemenHapus = Q.info[Q.Head];
-        cout << "Data " << elemenHapus.Nama
-             << " (Head) berhasil dihapus dengan Dequeue.\n";
+        cout << "Data " << elemenHapus.Nama << " (Head) berhasil dihapus dengan Dequeue.\n";
         Q.Head = -1;
         Q.Tail = -1;
     } else {
         // Kasus > 1 elemen
         elemenHapus = Q.info[Q.Head];
-        cout << "Data " << elemenHapus.Nama
-             << " (Head) berhasil dihapus dengan Dequeue.\n";
+        cout << "Data " << elemenHapus.Nama << " (Head) berhasil dihapus dengan Dequeue.\n";
 
-        if (Q.Head < maxElemen - 1)
-            Q.Head = Q.Head + 1;
-        else
-            Q.Head = 0;
+        if (Q.Head < maxElemen - 1) ++Q.Head;
+        else Q.Head = 0;
     }
+    return elemenHapus;
 }
 
 void traversal(Queue Q) {
@@ -195,55 +189,52 @@ void traversal(Queue Q) {
     cout << "\t\t    (Queue Array Circular - FIFO)\n";
     cout << string(80, '-') << "\n";
     cout << left
-         << setw(4)  << "No"
-         << setw(9)  << "NIP"
-         << setw(14) << "Nama"
-         << setw(5)  << "Gol"
-         << setw(15) << "Gaji"
-         << setw(15) << "Tunjangan"
-         << setw(15) << "Total" << "\n";
+    << setw(4)  << "No"
+    << setw(9)  << "NIP"
+    << setw(14) << "Nama"
+    << setw(5)  << "Gol"
+    << setw(15) << "Gaji"
+    << setw(15) << "Tunjangan"
+    << setw(15) << "Total" << "\n";
     cout << string(80, '-') << "\n";
 
-    long long jumlahGaji      = 0;
+    long long jumlahGaji = 0;
     long long jumlahTunjangan = 0;
-    long long jumlahTotal     = 0;
-    int       cnt             = 0;
-    int       i               = Q.Head;
+    long long jumlahTotal = 0;
+    int cnt = 0;
+    int i = Q.Head;
 
     // Traversal circular: mulai dari Head, berhenti setelah Tail
     while (true) {
-        long long gaji      = getGaji(Q.info[i].Gol);
+        long long gaji = getGaji(Q.info[i].Gol);
         long long tunjangan = getTunjangan(Q.info[i].Gol);
-        long long total     = gaji + tunjangan;
+        long long total = gaji + tunjangan;
 
-        jumlahGaji      += gaji;
+        jumlahGaji += gaji;
         jumlahTunjangan += tunjangan;
-        jumlahTotal     += total;
+        jumlahTotal += total;
         cnt++;
 
         cout << left
-             << setw(4)  << cnt
-             << setw(9)  << Q.info[i].NIP
-             << setw(14) << Q.info[i].Nama
-             << setw(5)  << Q.info[i].Gol
-             << setw(15) << formatRupiah(gaji)
-             << setw(15) << formatRupiah(tunjangan)
-             << setw(15) << formatRupiah(total) << "\n";
-
+        << setw(4)  << cnt
+        << setw(9)  << Q.info[i].NIP
+        << setw(14) << Q.info[i].Nama
+        << setw(5)  << Q.info[i].Gol
+        << setw(15) << formatRupiah(gaji)
+        << setw(15) << formatRupiah(tunjangan)
+        << setw(15) << formatRupiah(total) << "\n";
+        
         if (i == Q.Tail) break;
-
-        if (i < maxElemen - 1)
-            i = i + 1;
-        else
-            i = 0;
+        else if (i < maxElemen - 1) ++i;
+        else i = 0;
     }
 
     cout << string(80, '-') << "\n";
     cout << left
-         << setw(32) << "Jumlah"
-         << setw(15) << formatRupiah(jumlahGaji)
-         << setw(15) << formatRupiah(jumlahTunjangan)
-         << setw(15) << formatRupiah(jumlahTotal) << "\n";
+    << setw(32) << "Jumlah"
+    << setw(15) << formatRupiah(jumlahGaji)
+    << setw(15) << formatRupiah(jumlahTunjangan)
+    << setw(15) << formatRupiah(jumlahTotal) << "\n";
     cout << string(80, '-') << "\n";
     cout << "Rata-rata Gaji Total : " << formatRupiah(jumlahTotal / cnt) << "\n";
     cout << string(80, '-') << "\n";
