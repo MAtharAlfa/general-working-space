@@ -254,12 +254,12 @@ void insertFirstDivisi(ListDivisi& first, ptrDivisi pBaru) {
 void insertLastDivisi(ListDivisi& first, ptrDivisi pBaru) {
    if (first == NULL) {
        first       = pBaru;
-       pBaru->next = first;
+       pBaru->next = first; 
    } else {
        ptrDivisi tail = tailDivisi(first);
        tail->next     = pBaru;
-       pBaru->next    = first;
-   }
+       pBaru->next    = first;    
+   } 
 }
 
 
