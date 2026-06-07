@@ -1,3 +1,10 @@
+/*  Nama program    :   Tree
+    Nama            :   Muhammad Athar Alfarisi (Khaled Meshaal Ahmadinejad Mujaddid Thariq Mardova Fadhilah 250056, Muhammad Faiz Hariy Nugroho 250029)
+    NPM             :   140810250005
+    Tanggal buat    :   7 Juni 2026
+    Deskripsi       :   Operasi Tree menggunakan STL C++
+*/
+
 #include <iostream>
 #include <memory>
 #include <utility>
