@@ -1,6 +1,14 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c++
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++
 
+#DOSBOX
+*.com
+ASM-Workspace/*.zip
+ASM-Workspace/cwsdpmi.doc
+ASM-Workspace/nasmdoc.txt
+ASM-Workspace/README
+ASM-Workspace/LICENSE
+
 .vscode
 
 ### C++ ###
