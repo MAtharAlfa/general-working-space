@@ -74,7 +74,7 @@ Graph* createGraph(const char totalVertex){
     graph->vertexList = new AdjList[totalVertex];
     for (size_t i = 0; i < totalVertex; ++i)
     {
-        cout << "Masukan label (int) untuk vertex ke-" << i+1 << ": ";
+        cout << "Masukan label (char) untuk vertex ke-" << i+1 << ": ";
         cin >> graph->vertexList[i].label;
         graph->vertexList[i].head = nullptr;
     }
