@@ -1,3 +1,10 @@
+/*  Nama program    :   Graph
+    Nama            :   Muhammad Athar Alfarisi 140810250005, K.M.A.M.T. Mardova F. 140810250056, M. Faiz Nugoroho 140810250029
+    NPM             :   140810250005
+    Tanggal buat    :   14 Juni 2026
+    Deskripsi       :   Operasi graph dengan DFS dan BFS
+*/
+
 #include <iostream>
 #include <queue>
 #include <stack>
@@ -8,12 +15,12 @@ using namespace std;
 struct AdjListNode 
 {
     AdjListNode* next;
-    int data;
+    char data;
 };
 
 struct AdjList 
 {
-    int label;
+    char label;
     AdjListNode* head;
 };
 
@@ -23,12 +30,13 @@ struct Graph
     int totalVertex;
 };
 
-Graph* createGraph(const int totalVertex);
-AdjListNode* newAdjListNode(const int data);
-void addEdge(Graph* &graph, const int src, const int dest);
+Graph* createGraph(const char totalVertex);
+AdjListNode* newAdjListNode(const char data);
+void addEdge(Graph* &graph, const char srcLabel, const char destLabel);
 void printGraph(Graph* &graph);
-void printDFS(Graph* &graph, const int start);
-void printBFS(Graph* &graph, const int start);
+void printDFS(Graph* &graph, const char startLabel);
+void printBFS(Graph* &graph, const char startLabel);
+AdjList* getAdjList(Graph* &graph, const char targetLabel);
 
 int main(){
 //create new graph
@@ -39,32 +47,32 @@ int main(){
     Graph *graph;
     graph = createGraph(totalVertices);
     //connect edges
-    addEdge(graph,0,1);
-    addEdge(graph,0,2);
-    addEdge(graph,1,0);
-    addEdge(graph,1,2);
-    addEdge(graph,1,3);
-    addEdge(graph,1,4);
-    addEdge(graph,2,5);
-    addEdge(graph,2,6);
-    addEdge(graph,3,7);
-    addEdge(graph,4,7);
-    addEdge(graph,5,7);
-    addEdge(graph,6,7);
+    addEdge(graph,'A','B'); 
+    addEdge(graph,'A','C');
+    addEdge(graph,'B','A');
+    addEdge(graph,'B','C');
+    addEdge(graph,'B','D');
+    addEdge(graph,'B','E');
+    addEdge(graph,'C','F');
+    addEdge(graph,'C','G');
+    addEdge(graph,'D','H');
+    addEdge(graph,'E','H');
+    addEdge(graph,'F','H');
+    addEdge(graph,'G','H');
 
     //print adjacency list
     printGraph(graph);
-    printDFS(graph, 3);
-    printBFS(graph, 3);
+    printDFS(graph, 'H');
+    printBFS(graph, 'H');
 }
 
 
-Graph* createGraph(const int totalVertex){
+Graph* createGraph(const char totalVertex){
     Graph* graph = new Graph;
     graph->totalVertex = totalVertex;
 
     graph->vertexList = new AdjList[totalVertex];
-    for (size_t i = 0; i < totalVertex; i++)
+    for (size_t i = 0; i < totalVertex; ++i)
     {
         cout << "Masukan label (int) untuk vertex ke-" << i+1 << ": ";
         cin >> graph->vertexList[i].label;
@@ -73,39 +81,48 @@ Graph* createGraph(const int totalVertex){
     return graph;
 }
 
-AdjListNode* newAdjListNode(const int data){
+AdjListNode* newAdjListNode(const char data){
     AdjListNode* newPtr = new AdjListNode;
     newPtr->data = data;
     newPtr->next = nullptr;
     return newPtr;
 }
 
-void addEdge(Graph* &graph, const int src, const int dest){
-    AdjListNode* newPtr = newAdjListNode(dest);
-    if (graph->vertexList[src].head == nullptr){
-        graph->vertexList[src].head = newPtr;
+//return a pointer to AdjList
+AdjList* getAdjList(Graph* &graph, const char targetLabel) {
+    for(size_t i = 0; i < graph->totalVertex; ++i){
+        if(graph->vertexList[i].label == targetLabel) return &graph->vertexList[i];
+    }
+    cout << "getAdjList() error: vertex not found." << endl;
+    return nullptr;
+}
+
+void addEdge(Graph* &graph, const char srcLabel, const char destLabel){
+    AdjListNode* newPtr = newAdjListNode(getAdjList(graph, destLabel)->label);
+    if (getAdjList(graph, srcLabel)->head == nullptr){
+        getAdjList(graph, srcLabel)->head = newPtr;
     }
     else {
-        AdjListNode* check = graph->vertexList[src].head;
+        AdjListNode* check = getAdjList(graph, srcLabel)->head;
         while (check != nullptr)
         {
             if(check->data == newPtr->data) {
-                cout << "addEdge() error: edge sudah ada" << endl;
+                cout << "addEdge() error: edge already exists." << endl;
                 return;
             }
             check = check->next;
         }
         
-        newPtr->next = graph->vertexList[src].head;
-        graph->vertexList[src].head = newPtr;
+        newPtr->next = getAdjList(graph, srcLabel)->head;
+        getAdjList(graph, srcLabel)->head = newPtr;
     }
 
-    newPtr = newAdjListNode(src);
-    if (graph->vertexList[dest].head == nullptr){
-        graph->vertexList[dest].head = newPtr;
+    newPtr = newAdjListNode(getAdjList(graph, srcLabel)->label);
+    if (getAdjList(graph, destLabel)->head == nullptr){
+        getAdjList(graph, destLabel)->head = newPtr;
     } else {
-        newPtr->next = graph->vertexList[dest].head;
-        graph->vertexList[dest].head = newPtr;
+        newPtr->next = getAdjList(graph, destLabel)->head;
+        getAdjList(graph, destLabel)->head = newPtr;
     }
 }
 
@@ -126,25 +143,25 @@ void printGraph(Graph* &graph){
     }
 }
 
-void printBFS(Graph* &graph, const int start){
-    vector<int> visited;
-    queue<int> queue;
+void printBFS(Graph* &graph, const char startLabel){
+    vector<char> visited;
+    queue<char> queue;
 
-    queue.push(start);
-    visited.push_back(start);
+    queue.push(startLabel);
+    visited.push_back(startLabel);
 
-    cout << "BFS: ";
+    cout << "BFS(start:" << startLabel << "): ";
     while (!queue.empty())
     {
-        int currentInt = queue.front();
+        char currentInt = queue.front();
         queue.pop();
 
         cout << currentInt << " ";
 
-        AdjListNode* currentNode = graph->vertexList[currentInt].head;
+        AdjListNode* currentNode = getAdjList(graph, currentInt)->head;
         while(currentNode != nullptr){
             bool marked = false;
-            for(const int& check: visited){
+            for(const char& check: visited){
                 if (currentNode->data == check) marked = true;
             }
         
@@ -160,25 +177,25 @@ void printBFS(Graph* &graph, const int start){
     cout << endl;
 }
 
-void printDFS(Graph* &graph, const int start){
-    vector<int> visited;
-    stack<int> stack;
+void printDFS(Graph* &graph, const char startLabel){
+    vector<char> visited;
+    stack<char> stack;
     
-    stack.push(start);
-    visited.push_back(start);
+    stack.push(startLabel);
+    visited.push_back(startLabel);
 
-    cout << "DFS: ";
+    cout << "DFS(start:" << startLabel << "): ";
     while (!stack.empty())
     {
-        int currentInt = stack.top();
+        char currentInt = stack.top();
         stack.pop();
         
         cout << currentInt << " ";
 
-        AdjListNode* currentNode = graph->vertexList[currentInt].head;
+        AdjListNode* currentNode = getAdjList(graph, currentInt)->head;
         while(currentNode != nullptr){
             bool marked = false; 
-            for(const int& check : visited){
+            for(const char& check : visited){
                 if (currentNode->data == check) marked = true;
             }
             if (marked){
