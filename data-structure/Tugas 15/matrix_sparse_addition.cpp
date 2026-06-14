@@ -1,13 +1,10 @@
-/*******************************************************************
- *  Nama Program         : matrix_sparse_addition
- *  Nama                 : 
- *  NPM                  : 1408102500
- *  Tanggal Pengerjaan   : 13 Juni 2026
- *  Deskripsi            : Penjumlahan dua matriks sparse yang 
- *                         diimplementasikan dengan multi-linked-list.
- * 
- *******************************************************************/
-
+/*  Nama program    :   matrix_sparse_addition
+    Nama            :   Muhammad Athar Alfarisi 140810250005, K.M.A.M.T. Mardova F. 140810250056, M. Faiz Nugoroho 140810250029
+    NPM             :   140810250005
+    Tanggal buat    :   14 Juni 2026
+    Deskripsi       :   Penjumlahan dua matriks sparse yang 
+                        diimplementasikan dengan multi-linked-list.
+*/
 #include <iostream>
 
 struct ElementNode 
