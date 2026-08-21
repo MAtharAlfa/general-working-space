@@ -32,11 +32,11 @@ struct Graph
 
 Graph* createGraph(const char totalVertex);
 AdjListNode* newAdjListNode(const char data);
-void addEdge(Graph* &graph, const char srcLabel, const char destLabel);
-void printGraph(Graph* &graph);
-void printDFS(Graph* &graph, const char startLabel);
-void printBFS(Graph* &graph, const char startLabel);
-AdjList* getAdjList(Graph* &graph, const char targetLabel);
+void addEdge(const Graph* &graph, const char srcLabel, const char destLabel);
+void printGraph(const Graph* &graph);
+void printDFS(const Graph* &graph, const char startLabel);
+void printBFS(const Graph* &graph, const char startLabel);
+AdjList* getAdjList(const Graph* &graph, const char targetLabel);
 
 int main(){
 //create new graph
@@ -44,8 +44,7 @@ int main(){
     cout << "Masukan total vertex: ";
     cin >> totalVertices;
     
-    Graph *graph;
-    graph = createGraph(totalVertices);
+    const Graph *graph = createGraph(totalVertices);
     //connect edges
     addEdge(graph,'A','B'); 
     addEdge(graph,'A','C');
@@ -89,7 +88,7 @@ AdjListNode* newAdjListNode(const char data){
 }
 
 //return a pointer to AdjList
-AdjList* getAdjList(Graph* &graph, const char targetLabel) {
+AdjList* getAdjList(const Graph* &graph, const char targetLabel) {
     for(size_t i = 0; i < graph->totalVertex; ++i){
         if(graph->vertexList[i].label == targetLabel) return &graph->vertexList[i];
     }
@@ -97,7 +96,7 @@ AdjList* getAdjList(Graph* &graph, const char targetLabel) {
     return nullptr;
 }
 
-void addEdge(Graph* &graph, const char srcLabel, const char destLabel){
+void addEdge(const Graph* &graph, const char srcLabel, const char destLabel){
     AdjListNode* newPtr = newAdjListNode(getAdjList(graph, destLabel)->label);
     if (getAdjList(graph, srcLabel)->head == nullptr){
         getAdjList(graph, srcLabel)->head = newPtr;
@@ -126,7 +125,7 @@ void addEdge(Graph* &graph, const char srcLabel, const char destLabel){
     }
 }
 
-void printGraph(Graph* &graph){
+void printGraph(const Graph* &graph){
     cout << "Adjacency List Vertex\n---------------------\n";
     for (size_t i = 0; i < graph->totalVertex; i++)
     {
@@ -143,7 +142,7 @@ void printGraph(Graph* &graph){
     }
 }
 
-void printBFS(Graph* &graph, const char startLabel){
+void printBFS(const Graph* &graph, const char startLabel){
     vector<char> visited;
     queue<char> queue;
 
@@ -177,7 +176,7 @@ void printBFS(Graph* &graph, const char startLabel){
     cout << endl;
 }
 
-void printDFS(Graph* &graph, const char startLabel){
+void printDFS(const Graph* &graph, const char startLabel){
     vector<char> visited;
     stack<char> stack;
     
